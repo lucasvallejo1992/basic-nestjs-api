@@ -7,8 +7,14 @@ import { Todo } from './entities/todo.entity';
 export class TodoService {
   private todos: Todo[] = [{ id: 1, description: 'test', done: false }];
 
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+  create(createTodoDto: CreateTodoDto): Todo {
+    const todo = new Todo();
+    todo.id = Math.max(...this.todos.map((_todo) => _todo.id), 0) + 1;
+    todo.description = createTodoDto.description;
+
+    this.todos.push(todo);
+
+    return todo;
   }
 
   findAll(): Todo[] {
